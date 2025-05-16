@@ -18,17 +18,15 @@ input = [
 @pytest.mark.parametrize("irradiance, area, efficiency, time, solution", input)
 def test_generate_solar_energy(irradiance, area, efficiency, time, solution):
 
-    energy_created = SolarPanel.solar_panel_energy_change(
-        irradiance, area, efficiency, time
-    )
+    energy_created = SolarPanel.energy_created(irradiance, area, efficiency, time)
     assert energy_created == solution
 
 
 def test_solar_throws_error_for_neg_irradiance():
     with pytest.raises(Exception):
-        SolarPanel.solar_panel_energy_change(-1, 1, 1, 1)
+        SolarPanel.energy_created(-1, 1, 1, 1)
 
 
 def test_solar_throws_error_for_neg_time():
     with pytest.raises(Exception):
-        SolarPanel.solar_panel_energy_change(1, 1, 1, -1)
+        SolarPanel.energy_created(1, 1, 1, -1)

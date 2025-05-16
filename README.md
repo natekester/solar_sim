@@ -36,15 +36,17 @@ immediate energy generated (Watt second or joules) = solar irradiance (W/m^2) _ 
 
 #### Pipe heat loss
 
+using the following study on heat transport pipelines:
 https://link.springer.com/article/10.1007/s42452-022-05226-2
 
+![pipe heat loss image](pipe-heat-loss.png)
 Thermal resistance of the pipe:
 𝑅=𝑙𝑛[(𝐷+𝛿)/𝐷]2𝜋𝜆
 
 R: Thermal resistance per metre (m K W−1)
-Insulation thermal conductivity: λ = 0.18 W m−1 K−1.
-D: outside diameter
-𝛿: insulation thickness
+Insulation thermal conductivity: a decent value of λ = 0.18 W m−1 K−1.
+D: outside diameter (meters)
+𝛿: insulation thickness(meters)
 
 Heat Loss Q:
 𝑄= C𝑝 𝐺(𝑇𝑖 − 𝑇𝑠)[1−exp(−𝐿 / C𝑝 𝐺 𝑅)]
@@ -53,15 +55,15 @@ Q: kJ/s
 With Cp being specific heat of water (assuming constant under pressure - eh good enough): 4.186 kJ/kg\*K
 Specific heat at constant pressure (kJ kg−1 K−1)
 
-L: pipeline length
-Ti: Inlet temp of water
-Ts: Environment temp or Surrounding Temp
-G: the mass flow rate of the hot water kg/s
+L: pipeline length (meters)
+Ti: Inlet temp of water (Celsius)
+Ts: Environment temp or Surrounding Temp (Celsius)
+G: the mass flow rate of the hot water (kg/s)
 
 𝐺=(𝜋𝑑\**2/4)*𝜌𝑣
-v is it's flow velocity
-d is inner diameter of the pipe
-p is the density of the hot water kg/m^3
+v is it's flow velocity (m per s)
+d is inner diameter of the pipe (meters)
+p is the density of the hot water (kg/m^3)
 
 ### Thought ProcessSystem Parts
 
@@ -84,5 +86,4 @@ The pipes also get very complicated:
 - does it cause turbulent or laminar flow?
 
 The solar panel itself:
-
-- how
+------ TODO ----

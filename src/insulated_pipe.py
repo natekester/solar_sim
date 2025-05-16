@@ -1,34 +1,29 @@
 import math
+from pump import Pump
 
 
 class InsulatedPipe:
-    thermal_resistance: float = (
-        0.18  # Watt / meter Kelvin - generally a good assumption
-    )
 
     def __init__(
         self,
         length,
+        pump: Pump,
+        thermal_resistance,
+        density_of_liquid,
         outside_diameter,
         inner_diameter,
         insulation_thickness,
-        flow_velocity,
-        density_of_liquid=1000,
+        water_specific_heat,
     ):
         self.length: float = length  # meters
-        self.outside_diameter: float = outside_diameter  # meters
-        self.inner_diameter: float = inner_diameter  # meters
-        self.insulation_thickness: float = insulation_thickness  # again, meters
-        self.flow_velocity: float = flow_velocity
+        self.pump = pump
+        print("input pump: ", pump)
+        self.thermal_resistance = thermal_resistance
         self.density_of_liquid = density_of_liquid
-
-    def calc_mass_flow_rate(self) -> float:
-        mass_flow_rate = (
-            ((math.pi * self.inner_diameter**2) / 4)
-            * self.density_of_liquid
-            * self.flow_velocity
-        )
-        return mass_flow_rate
+        self.outside_diameter = outside_diameter
+        self.inner_diameter = inner_diameter
+        self.insulation_thickness = insulation_thickness
+        self.water_specific_heat = water_specific_heat
 
     def calc_pipe_thermal_resistance(self) -> float:
         pipe_therm_resistance = (
@@ -43,35 +38,35 @@ class InsulatedPipe:
         return pipe_therm_resistance
 
     def energy_loss(
-        inlet_water_temp: int, environment_temp: int, dtime: float, self
+        self, inlet_water_temp: int, environment_temp: int, dtime: float
     ) -> float:
         """
-        This function determines the incoming energy of the solar panel
+        This method determines the energy loss of the insulated pipe
 
         Parameters:
-        solar_irradiance (int): units of watts/m^2 - generally 0 to 4000 ish
-        area (int): area in units of meters squared
-        efficiency (float): efficiency of the panel. 0 to 1.
-        dtime (float): time in seconds
-
+        inlet_water_temp (int): generally 25+ celsius
+        environment_temp (int): generally 0-25 celsius
+        dtime (float): change of time in seconds to calculate energy loss
         """
-        water_specific_heat = 4.186  # kJ/kg*kelvin
-        mass_flow_rate = self.calc_mass_flow_rate()
+        print("PUMP:", self.pump)
+        mass_flow_rate = self.pump.mass_flow_rate
         pipe_thermal_resistance = self.calc_pipe_thermal_resistance()
         water_environment_temp_diff = inlet_water_temp - environment_temp
         pipe_length_flow_capacity = 1 - math.exp(
             -(
                 self.length
-                / water_specific_heat
+                / self.water_specific_heat
                 * mass_flow_rate
                 * pipe_thermal_resistance
             )
         )
-        createdEnergy = (
-            water_specific_heat
-            * mass_flow_rate()
+        lost_energy_per_second = (
+            self.water_specific_heat
+            * mass_flow_rate
             * water_environment_temp_diff
             * pipe_length_flow_capacity
-        )
+        )  # kJ/s
 
-        return createdEnergy
+        lost_energy = lost_energy_per_second * dtime
+
+        return lost_energy
