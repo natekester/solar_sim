@@ -1,6 +1,6 @@
 class SolarPanel:
     @staticmethod
-    def solar_panel_energy_change(
+    def energy_created(
         solar_irradiance: int, area: int, efficiency: float, dtime: float
     ) -> float:
         """

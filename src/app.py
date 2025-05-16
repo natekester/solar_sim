@@ -1,5 +1,6 @@
 def solar_tank_thermodynamics():
-    tank_temp = 0
+    
+
     return tank_temp
 
 
