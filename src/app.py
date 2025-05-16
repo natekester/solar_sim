@@ -4,7 +4,7 @@ from insulated_pipe import InsulatedPipe
 
 ## Hard coded Assumptions
 thermal_resistance: float = (
-    0.18  # Watt / meter Kelvin(or celsius) - generally a good assumption
+    0.00018  # kJ / meter Kelvin(or celsius) second - generally a good assumption
 )
 density_of_liquid = 1000  # # 1000 kg/m^3 normally for pure water (997 might be a lil' more accurate tho)
 outside_diameter = 0.0254  # 1" in meters - common pipe size

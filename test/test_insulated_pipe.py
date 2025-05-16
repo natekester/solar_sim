@@ -12,7 +12,7 @@ from app import (
 )
 
 ## Hard coded Assumptions for these tests to work
-# thermal_resistance: float = 0.18  # Watt / meter Kelvin - generally a good assumption
+# thermal_resistance: float = 0.00018  # kWatt / meter Kelvin OR kj/m*s*k -  generally a good assumption
 # density_of_liquid = 1000  # # 1000 kg/m^3 normally for pure water (997 might be a lil' more accurate tho)
 # outside_diameter = 0.0254  # 1" in meters - common pipe size
 # inner_diameter = 0.0330  # 1.315" in meters
@@ -24,19 +24,19 @@ from app import (
 # length(meters), flow_velocity, inlet_water_temp, environment_temp, dtime, solution
 input = [
     ##if you change the constants on app.py, these will fail
-    (50, 102, 21, 60, 34800),  # 34800 kJ lost
-    (50, 102, 21, 30, 34800 / 2),  # half as much energy lost in half the time
-    (5, 100, 21, 60, 27100),  # 27100 kJ lost
+    (50, 99, 21, 60, 532),  # 532 kJ lost
+    (50, 99, 21, 30, 532 / 2),  # half as much energy lost in half the time
+    (5, 100, 21, 60, 54),  # 54 kJ lost
     (5, 21, 21, 60, 0),  # 0 energy loss if inlet temp is same as outside
 ]
-# fun thought: 27100 kj will raise a liter of water how much C?
+# fun thought: 54 kj will raise a liter of water how much C?
 # 1 liter is 1kg
 # lets assume 190L tank or 190kg
 # specific heat of water is 4.186 kJ/kg*c
-# 34800/4.186 = 6473.960 kg*c -> divide by 190 -> 34 degrees celsius
-# so the energy equivalent of pushing 100 degree water through ~15ft of insulated pipe
-# over a minute is the same energy that it would take for a
-# a 190L tank to lose 34 degrees? seems off
+# so 54kJ lost over 5 meters of insulated pipe running with boiling water
+# 54kj/4.186 kj/kg*c -> 12.90 kg*c -> so it would change 10Liters of water ~1.3 degrees celsius?
+# that feels way more reasonable than before. That is a very insulated pipe though - makes sense with numbers
+# coming from heat transfer pipes.
 
 
 @pytest.mark.parametrize(
