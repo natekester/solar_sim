@@ -47,8 +47,11 @@ change in energy = Energy In - Energy out over time
 #### Solar/Heat Collector
 
 immediate energy generated (kWatt second or kJoules) = (SI)(A)(dt)
+
 SI: solar irradiance (kW/m^2)
+
 A: Area of panel (m^2)
+
 dt: change in time (seconds)
 
 #### Pipe heat loss
@@ -62,8 +65,11 @@ Thermal resistance of the pipe:
 𝑅=𝑙𝑛[(𝐷+𝛿)/𝐷]2𝜋𝜆
 
 R: Thermal resistance per metre (m K W−1)
-Insulation thermal conductivity: a decent value of λ = 0.18 W m−1 K−1.
+
+λ: Insulation thermal conductivity going to make constant of 0.18 W m−1 K−1.
+
 D: outside diameter (meters)
+
 𝛿: insulation thickness(meters)
 
 Heat Loss rate Q:
@@ -74,13 +80,19 @@ With Cp being specific heat of water (assuming constant under pressure - eh good
 Specific heat at constant pressure (kJ kg−1 K−1)
 
 L: pipeline length (meters)
+
 Ti: Inlet temp of water (Celsius)
+
 Ts: Environment temp or Surrounding Temp (Celsius)
+
 G: the mass flow rate of the hot water (kg/s)
 
 𝐺=(𝜋𝑑\**2/4)*𝜌𝑣
+
 v is it's flow velocity (m per s)
+
 d is inner diameter of the pipe (meters)
+
 p is the density of the hot water (kg/m^3)
 
 ### Tank heat loss
