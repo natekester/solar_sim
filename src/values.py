@@ -20,7 +20,7 @@ area = 1  # meter square
 efficiency = 0.7  # heat captures can get up there to 70%
 length_of_pipe = 5  # 5 meters of pipe?
 
-# using some NSRDB data for lat: 41.92 long: -110.49 for a few days
+# using some NSRDB data for lat: 41.92 long: -110.49 for ~5 days
 # using csvs/NSRDB API and Pandas df would make sense for long term app
 daily_irradiance = [
     0,

@@ -20,8 +20,7 @@ Run the program:
 $ poetry run src/app.py
 ```
 
-You will get a graph output like the following, showing tank temp over ~5 days of
-NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 21C room.
+You will get a graph output like the following, showing tank temp over ~5 days of NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 21 Celsius room.
 
 ![tank temp graph](tank_temp_graph.png)
 
@@ -133,12 +132,15 @@ List of general assumptions I made, and thoughts on those impacts:
 
 - fluid is water (density of 1000 kg/m^3, specific heat of 4.186 kJ/kg celsius, etc )
 - the pipes are insulated
+- 5 meters of insulated pipe
 - the pipes energy loss is pretty much all from tank temperature. Not really a great assumption, since you'd have really hot water coming out of the solar panel. Really would want to model temps coming out of the solar panel, and model 2 separate tubes with 2 different incoming temps and lengths.
 - the pump does not add energy to the system, and runs at a flow velocity of 2 m/s for 1" pipes
 - the pipes and tank are in a constant temperature location (let's pretend they're inside a temp controlled room of 21c)
 - tank starts at 21 degrees celsius
+- tank of 100 Liters
+- tank area of normal 100L tank at 1.4 meters square
 - the tank is _very insulated_ with a tank heat transfer coefficient of 0.0003 kW/m^2 kelvin
-- the solar panel maintains constant efficiency, even though technically the heat gradient would change (debated modeling it as uninsulated piping with it's own outside temperature, but that's a bit more work)
+- the solar panel maintains constant amazing efficiency of 70%, even though technically the heat gradient would change (debated modeling it as uninsulated piping with it's own outside heated box temperature, but that's a bit out of scope)
 
 ## Further Development Thoughts
 
