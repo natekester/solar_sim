@@ -20,8 +20,8 @@ Run the program:
 $ poetry run src/app.py
 ```
 
-You will get a graph output like the following, showing tank temp over ~5 days of
-NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 21C room.
+You will get a graph output like the following, showing tank temp over ~5 days of NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 21 Celsius room.
+
 ![tank temp graph](tank_temp_graph.png)
 
 Run tests with:
@@ -46,13 +46,11 @@ Minimum Requirements
 
 Energy In = Solar + Pump Friction (negligible) + outsideEnergy if negative gradient to environment (it's hotter outside than inside - shouldn't be the case in the sim) + friction of water within the pipe (negligible)
 
-simplified as just: Energy In = solar input
+simplified as just:
+
+Energy In = solar input
 
 Energy Out = -(pipe heat loss + tank heat loss)
-
-Modelling the change in temperature with _flowing_ water would be quite tough.
-
-In general the change in energy is a
 
 change in energy = Energy In - Energy out over time
 
@@ -69,7 +67,7 @@ dt: change in time (seconds)
 #### Pipe heat loss
 
 using the following study on heat transport pipelines:
-https://link.springer.com/article/10.1007/s42452-022-05226-2
+[Heat loss along the pipeline and its control measures](https://link.springer.com/article/10.1007/s42452-022-05226-2)
 
 ![pipe heat loss image](pipe-heat-loss.png)
 
@@ -109,12 +107,12 @@ p is the density of the hot water (kg/m^3)
 
 ### Tank heat loss
 
-using the following resource to create my approximation:
-https://www.tec-science.com/thermodynamics/heat/thermal-transmittance-u-value/
+using the following resource to create my approximation of tank heat loss:
+[Tec Science Page on heat thermodynamics and thermal transmittance](https://www.tec-science.com/thermodynamics/heat/thermal-transmittance-u-value/)
 
 I'm using the following equation for heat loss:
 
-Q=U⋅A⋅ΔT⋅Δt
+Q = U⋅A⋅ΔT⋅Δt
 
 U overall heat transfer coefficient: 0.0003 – 0.0010 k𝑊/𝑚^2𝐾 (lower the better)
 
@@ -130,11 +128,26 @@ t time: seconds
 
 This is a very open ended assignment, so many assumptions had to be made. I hard coded a lot of values to ensure I could get an approximation, you can find those values at src/values.py.
 
+List of general assumptions I made, and thoughts on those impacts:
+
 - fluid is water (density of 1000 kg/m^3, specific heat of 4.186 kJ/kg celsius, etc )
 - the pipes are insulated
+- 5 meters of insulated pipe
 - the pipes energy loss is pretty much all from tank temperature. Not really a great assumption, since you'd have really hot water coming out of the solar panel. Really would want to model temps coming out of the solar panel, and model 2 separate tubes with 2 different incoming temps and lengths.
 - the pump does not add energy to the system, and runs at a flow velocity of 2 m/s for 1" pipes
 - the pipes and tank are in a constant temperature location (let's pretend they're inside a temp controlled room of 21c)
 - tank starts at 21 degrees celsius
+- tank of 100 Liters
+- tank area of normal 100L tank at 1.4 meters square
 - the tank is _very insulated_ with a tank heat transfer coefficient of 0.0003 kW/m^2 kelvin
-- the solar panel maintains constant efficiency, even though technically the heat gradient would change (debated modeling it as uninsulated piping with it's own outside temperature, but that's a bit more work)
+- the solar panel maintains constant amazing efficiency of 70%, even though technically the heat gradient would change (debated modeling it as uninsulated piping with it's own outside heated box temperature, but that's a bit out of scope)
+
+## Further Development Thoughts
+
+If this system was made to be more applicable and applied with real env, I'd want to create interfaces to extend off of for each type of part, and then use creational design patterns to build out more complex systems. This would also help you update each part model separately.
+
+You'd likely want to model temp in/temp out of each part to better represent energy loss/creation.
+
+For data management, I'd implement Pandas and data frames to better take advantage of NSRDB data/etc for env.
+
+It wouldn't be terribly hard to have an API with select variables to generate a day of temperature data, and then have a front end animation follow that temp gradient.
