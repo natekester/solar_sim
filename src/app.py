@@ -10,7 +10,6 @@ from values import (
     daily_irradiance,
     environment_temp,
     current_tank_temp,
-    starting_temp,
     tank_area,
     volume,
     flow_velocity,
@@ -27,11 +26,10 @@ from values import (
 )
 
 
-def solar_tank_thermodynamics(
+def simulate_solar_tank_thermodynamics(
     daily_irradiance=daily_irradiance,
     environment_temp=environment_temp,
     current_tank_temp=current_tank_temp,
-    starting_temp=starting_temp,
     tank_area=tank_area,
     volume=volume,
     flow_velocity=flow_velocity,
@@ -44,8 +42,11 @@ def solar_tank_thermodynamics(
     area=area,
     efficiency=efficiency,
 ):
-    ## Hard coded Assumptions
+    """
+    Function to simulate a solar panel, insulated pipe, and tank
 
+    Creates a graph of the tank temperature
+    """
     ## creating the flow of the system
     basic_pump = Pump(inner_diameter, density_of_liquid, flow_velocity)
 
@@ -74,19 +75,22 @@ def solar_tank_thermodynamics(
         tank_heat_transfer_coff,
     )
 
-    # this is going to be heavily simplified. Ideally you'd model each section of pipe with inlet outlet.
-    # you'd get better energy loss if you could know the exact end temps of each pipe
-    dt = 60
-    time = np.arange(0, 86400 * 10, dt)  # 1 hour
+    dt = 20  # setting it up in second increments
+    fraction_of_min = dt / 60
+    seconds_in_5_days = 86400 * 5
+    time = np.arange(0, seconds_in_5_days, dt)  # time in 1 min bites over 5 days
     tank_temp_over_time = np.zeros_like(time)
     tank_temp_over_time[0] = current_tank_temp
     min_passed = 0
     for i in range(1, len(time)):
-        min_passed = min_passed + 1
-        hour = math.floor(min_passed / 120)
+        min_passed = min_passed + fraction_of_min
+        hour = math.floor(min_passed / 60)
+        if hour + 1 > len(daily_irradiance):
+            print("You've reached the end of your data. Graphing.")
+            break
 
-        # I should really be pulling temp by hour as well.
-        # guess we'll assume only the solar panel is outside.
+        # daily irradiance data is hourly and in watts
+        # get the solar irradiance in kw every hour
         solar_irradiance = daily_irradiance[hour] / 1000
 
         energy_lost_pipe = pipe.energy_loss(current_tank_temp, environment_temp, dt)
@@ -100,17 +104,19 @@ def solar_tank_thermodynamics(
             solar_irradiance, area, efficiency, dt
         )
 
-        current_tank_temp = tank.temp_energy_change(energy_added - energy_lost)
+        energy_delta = energy_added - energy_lost
+
+        current_tank_temp = tank.temp_energy_change(energy_delta)
 
         tank_temp_over_time[i] = current_tank_temp
 
-    plt.plot(time / 60, tank_temp_over_time)
-    plt.xlabel("Time (minutes)")
+    plt.plot(time / 60 / 60 / 24, tank_temp_over_time)
+    plt.xlabel("Time (days)")
     plt.ylabel("Tank Temperature (°C)")
-    plt.title("Enclosed 100L Tank over 5 days")
+    plt.title("Enclosed 100L Tank Temp")
     plt.grid(True)
     plt.show()
 
 
 if __name__ == "__main__":
-    solar_tank_thermodynamics()
+    simulate_solar_tank_thermodynamics()
