@@ -8,6 +8,8 @@ authors = ["Nathan Kester"]
 [tool.poetry.dependencies]
 python = "^3.11"
 pytest = "^8.3.5"
+numpy = "^2.2.5"
+matplotlib = "^3.10.3"
 
 
 [build-system]

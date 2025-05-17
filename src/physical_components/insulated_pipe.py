@@ -1,8 +1,9 @@
 import math
-from pump import Pump
+from physical_components.pump import Pump
 
 
 class InsulatedPipe:
+    """a class to represent an insulated pipe and its energy loss with flowing liquid"""
 
     def __init__(
         self,
@@ -17,15 +18,20 @@ class InsulatedPipe:
     ):
         self.length: float = length  # meters
         self.pump = pump
-        print("input pump: ", pump)
         self.thermal_resistance = thermal_resistance
         self.density_of_liquid = density_of_liquid
         self.outside_diameter = outside_diameter
         self.inner_diameter = inner_diameter
         self.insulation_thickness = insulation_thickness
         self.water_specific_heat = water_specific_heat
+        self.pipe_thermal_resistance = self.__calc_pipe_thermal_resistance()
 
-    def calc_pipe_thermal_resistance(self) -> float:
+    def __calc_pipe_thermal_resistance(self) -> float:
+        """
+        Private: Calculate the pipe's thermal resistance
+
+        returns kJ / meter kelvin
+        """
         pipe_therm_resistance = (
             math.log(
                 (self.outside_diameter + self.insulation_thickness)
@@ -47,17 +53,18 @@ class InsulatedPipe:
         inlet_water_temp (int): generally 25+ celsius
         environment_temp (int): generally 0-25 celsius
         dtime (float): change of time in seconds to calculate energy loss
+
+        Returns:
+        Kilojoules of energy lost
         """
-        print("PUMP:", self.pump)
         mass_flow_rate = self.pump.mass_flow_rate
-        pipe_thermal_resistance = self.calc_pipe_thermal_resistance()
         water_environment_temp_diff = inlet_water_temp - environment_temp
         pipe_length_flow_capacity = 1 - math.exp(
             -(
                 self.length
                 / self.water_specific_heat
                 * mass_flow_rate
-                * pipe_thermal_resistance
+                * self.pipe_thermal_resistance
             )
         )
         lost_energy_per_second = (

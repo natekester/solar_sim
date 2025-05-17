@@ -1,7 +1,7 @@
 import pytest
-from insulated_pipe import InsulatedPipe
-from pump import Pump
-from app import (
+from physical_components.insulated_pipe import InsulatedPipe
+from physical_components.pump import Pump
+from ..test_values import (
     thermal_resistance,
     density_of_liquid,
     outside_diameter,
@@ -11,20 +11,16 @@ from app import (
     flow_velocity,
 )
 
-## Hard coded Assumptions for these tests to work
-# thermal_resistance: float = 0.00018  # kWatt / meter Kelvin OR kj/m*s*k -  generally a good assumption
-# density_of_liquid = 1000  # # 1000 kg/m^3 normally for pure water (997 might be a lil' more accurate tho)
-# outside_diameter = 0.0254  # 1" in meters - common pipe size
-# inner_diameter = 0.0330  # 1.315" in meters
-# insulation_thickness = 0.0254  # 1" of insulation
-# water_specific_heat = 4.186  # kJ/kg*kelvin
-# flow_velocity: float = 2  # 2 meters/second is common for pumps with 1" iDiameter
-
-
 # length(meters), flow_velocity, inlet_water_temp, environment_temp, dtime, solution
 input = [
     ##if you change the constants on app.py, these will fail
-    (50, 99, 21, 60, 532),  # 532 kJ lost
+    (
+        50,
+        99,
+        21,
+        60,
+        532,
+    ),  # 532 kJ lost over 50 meters of insulated pipe
     (50, 99, 21, 30, 532 / 2),  # half as much energy lost in half the time
     (5, 100, 21, 60, 54),  # 54 kJ lost
     (5, 21, 21, 60, 0),  # 0 energy loss if inlet temp is same as outside

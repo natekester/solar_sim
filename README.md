@@ -1,5 +1,19 @@
 # SIMULATION MODEL
 
+## Running the model
+
+I've setup packages using poetry package manager. First install poetry.
+$ pip install poetry
+
+then install the packages
+$ poetry install
+
+Run the program:
+$ poetry run src/app.py
+
+Run tests with:
+poetry run pytest
+
 ## Code Challenge Instructions
 
 Physics Simulator Coding Exercise
@@ -12,11 +26,7 @@ Minimum Requirements
 2. Use whichever coding language you wish
 3. We will evaluate thermodynamic correctness, code approach, and results.
 
-## Initial Thoughts
-
-This is a very open ended project. Could go on forever. The 'simple software simulation' is somewhat contradictory to the statement of thermodynamic correctness (unless it's just simply saying units are correct?). I could have potentially modelled it as electrical components. Such as energy loss through wires vs pipes, etc. Might come back to that if the below doesn't pass my smell test.
-
-### Thoughts on the thermodynamics
+## Thoughts on the thermodynamics
 
 Energy In = Solar + Pump Friction (negligible) + outsideEnergy if negative gradient to environment (it's hotter outside than inside - shouldn't be the case in the sim) + friction of water within the pipe (negligible)
 
@@ -32,7 +42,10 @@ change in energy = Energy In - Energy out over time
 
 #### Solar/Heat Collector
 
-immediate energy generated (Watt second or joules) = solar irradiance (W/m^2) _ Area of panel _ dt
+immediate energy generated (kWatt second or kJoules) = (SI)(A)(dt)
+SI: solar irradiance (kW/m^2)
+A: Area of panel (m^2)
+dt: change in time (seconds)
 
 #### Pipe heat loss
 
@@ -48,7 +61,7 @@ Insulation thermal conductivity: a decent value of λ = 0.18 W m−1 K−1.
 D: outside diameter (meters)
 𝛿: insulation thickness(meters)
 
-Heat Loss Q:
+Heat Loss rate Q:
 𝑄= C𝑝 𝐺(𝑇𝑖 − 𝑇𝑠)[1−exp(−𝐿 / C𝑝 𝐺 𝑅)]
 
 Q: kJ/s
@@ -65,25 +78,16 @@ v is it's flow velocity (m per s)
 d is inner diameter of the pipe (meters)
 p is the density of the hot water (kg/m^3)
 
-### Thought ProcessSystem Parts
+### Tank heat loss
 
-In real life this gets incredibly complicated. In real life it can be quite a challenge to model the environment:
+using the following resource to create my approximation:
+https://www.tec-science.com/thermodynamics/heat/thermal-transmittance-u-value/
 
-- weather
-- sun cloud cover
-- outside temperature
-- latitude of the solar panel
-- object obstructions
-- angle of solar panel
-- corrosion of the system based on the climate/etc
-- and many more parameters
+I'm using the following equation for heat loss:
+Q=U⋅A⋅ΔT⋅Δt
 
-The pipes also get very complicated:
-
-- insulation/conductance of the pipe
-- the length/diameter of the pipe
-- the heat capacity of the pipe
-- does it cause turbulent or laminar flow?
-
-The solar panel itself:
------- TODO ----
+U overall heat transfer coefficient: 0.0003 – 0.0010 k𝑊/𝑚^2𝐾 (lower the better)
+A area: m^2
+T water: celsius
+T ambient: celsius
+t time: seconds
