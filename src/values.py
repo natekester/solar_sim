@@ -9,7 +9,6 @@ water_specific_heat = 4.186  # kJ/kg*celsius(or kelvin)
 flow_velocity: float = 2  # 2 meters/second is common for pumps with 1" iDiameter
 volume: float = 0.100  # we'll say around 100 liters or 0.1 meter cubed
 tank_area: float = 1.4  # ~1.4 square meters for 100 liter tank
-starting_temp = 21  # ~room temp is where we will start
 current_tank_temp = 21  # ~room temp is where we will start
 environment_temp = 21  # ~room temp is where we will start
 tank_heat_transfer_coff = 0.0003  # kW/m^2K assuming really good insulation
