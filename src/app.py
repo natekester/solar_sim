@@ -106,10 +106,10 @@ def simulate_solar_tank_thermodynamics(
 
         tank_temp_over_time[i] = current_tank_temp
 
-    plt.plot(time / 60, tank_temp_over_time)
-    plt.xlabel("Time (minutes)")
+    plt.plot(time / 60 / 60 / 24, tank_temp_over_time)
+    plt.xlabel("Time (days)")
     plt.ylabel("Tank Temperature (°C)")
-    plt.title("Enclosed 100L Tank over 5 days")
+    plt.title("Enclosed 100L Tank Temp")
     plt.grid(True)
     plt.show()
 
