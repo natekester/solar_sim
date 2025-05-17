@@ -3,13 +3,22 @@
 ## Running the model
 
 I've setup packages using poetry package manager. First install poetry.
+
+```
 $ pip install poetry
+```
 
 then install the packages
+
+```
 $ poetry install
+```
 
 Run the program:
+
+```
 $ poetry run src/app.py
+```
 
 You will get a graph output like the following, showing tank temp over ~5 days of
 NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 21C room.
