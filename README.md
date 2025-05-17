@@ -25,7 +25,10 @@ NSRDB solar irradiance data. Assume pipes and tank enclosed in temp controlled 2
 ![tank temp graph](tank_temp_graph.png)
 
 Run tests with:
+
+```
 poetry run pytest
+```
 
 ## Code Challenge Instructions
 
