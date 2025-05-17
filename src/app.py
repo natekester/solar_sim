@@ -75,15 +75,19 @@ def simulate_solar_tank_thermodynamics(
         tank_heat_transfer_coff,
     )
 
-    dt = 60  # setting it up in 60 second increments
+    dt = 20  # setting it up in second increments
+    fraction_of_min = dt / 60
     seconds_in_5_days = 86400 * 5
     time = np.arange(0, seconds_in_5_days, dt)  # time in 1 min bites over 5 days
     tank_temp_over_time = np.zeros_like(time)
     tank_temp_over_time[0] = current_tank_temp
     min_passed = 0
     for i in range(1, len(time)):
-        min_passed = min_passed + 1
+        min_passed = min_passed + fraction_of_min
         hour = math.floor(min_passed / 60)
+        if hour + 1 > len(daily_irradiance):
+            print("You've reached the end of your data. Graphing.")
+            break
 
         # daily irradiance data is hourly and in watts
         # get the solar irradiance in kw every hour
