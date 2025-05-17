@@ -57,6 +57,7 @@ using the following study on heat transport pipelines:
 https://link.springer.com/article/10.1007/s42452-022-05226-2
 
 ![pipe heat loss image](pipe-heat-loss.png)
+
 Thermal resistance of the pipe:
 𝑅=𝑙𝑛[(𝐷+𝛿)/𝐷]2𝜋𝜆
 
@@ -88,12 +89,17 @@ using the following resource to create my approximation:
 https://www.tec-science.com/thermodynamics/heat/thermal-transmittance-u-value/
 
 I'm using the following equation for heat loss:
+
 Q=U⋅A⋅ΔT⋅Δt
 
 U overall heat transfer coefficient: 0.0003 – 0.0010 k𝑊/𝑚^2𝐾 (lower the better)
+
 A area: m^2
+
 T water: celsius
+
 T ambient: celsius
+
 t time: seconds
 
 ## Assumptions
